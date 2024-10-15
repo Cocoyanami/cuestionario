@@ -266,6 +266,8 @@ function App() {
   ];
 
 
+  const [email, setEmail] = useState('');
+  const [emailSubmitted, setEmailSubmitted] = useState(false); // Para controlar si se ha ingresado el email
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState(Array(questions.length).fill(null));
 
@@ -295,60 +297,81 @@ function App() {
     }));
 
     const totalSum = results.reduce((sum, result) => sum + (result.selectedAnswer || 0), 0);
-    
-    // Sending data to the backend
-    
+
+    // Enviar datos al backend
     try {
       const response = await fetch('/api/saveAnswers', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ answers: results }),
+        body: JSON.stringify({ email, answers: results }),
       });
 
       if (response.ok) {
-        alert(`Responses saved successfully. Total Sum: ${totalSum}`);
+        alert(`Respuestas guardadas con éxito. Suma total: ${totalSum}`);
       } else {
-        alert('Error saving responses.');
+        alert('Error al guardar las respuestas.');
       }
     } catch (error) {
       console.error('Error:', error);
-      alert('Error saving responses.');
+      alert('Error al guardar las respuestas.');
     }
   };
 
-  const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
+  // Progreso de la barra basado en el email y las preguntas
+  const totalSteps = questions.length + 1; // Una para el email
+  const progressPercentage = ((currentQuestionIndex + 1 + (emailSubmitted ? 1 : 0)) / totalSteps) * 100;
 
   return (
     <div className="App">
       <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
-      <MultipleChoiceQuestion
-        question={questions[currentQuestionIndex].question}
-        options={questions[currentQuestionIndex].options}
-        onOptionSelect={handleOptionSelect}
-        selectedOption={answers[currentQuestionIndex]}
-        questionIndex={currentQuestionIndex}
-      />
-      <div className="button-container">
-        <button
-          onClick={handlePrevious}
-          disabled={currentQuestionIndex === 0}
-        >
-          Anterior
-        </button>
-        <button
-          onClick={handleNext}
-          disabled={answers[currentQuestionIndex] === null}
-        >
-          Siguiente
-        </button>
-        {currentQuestionIndex === questions.length - 1 && (
-          <button onClick={handleSubmit}>
-            Finalizar
+
+      {/* Mostrar el campo de email solo si no se ha ingresado */}
+      {!emailSubmitted && (
+        <div className="question-container">
+          <h3>Ingresa tu correo para avanzar</h3>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+            className='ema'
+          />
+          <br/><br/><br/>
+          <button onClick={() => setEmailSubmitted(true)} disabled={!email}>
+            Seguir
           </button>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* Mostrar preguntas solo si el email ha sido ingresado */}
+      {emailSubmitted && (
+        <MultipleChoiceQuestion
+          question={questions[currentQuestionIndex].question}
+          options={questions[currentQuestionIndex].options}
+          onOptionSelect={handleOptionSelect}
+          selectedOption={answers[currentQuestionIndex]}
+          questionIndex={currentQuestionIndex}
+        />
+      )}
+
+      {emailSubmitted && (
+        <div className="button-container">
+          <button onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
+            Anterior
+          </button>
+          <button onClick={handleNext} disabled={answers[currentQuestionIndex] === null}>
+            Siguiente
+          </button>
+          {currentQuestionIndex === questions.length - 1 && (
+            <button onClick={handleSubmit} disabled={!email}>
+              Finalizar
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }

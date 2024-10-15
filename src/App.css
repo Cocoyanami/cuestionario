@@ -94,7 +94,7 @@ input[type="radio"]:checked + label {
   height: 8px;
   background-color: #0072BC; 
   border-radius: 4px;
-  width: 100%;
+  width: 80%;
   margin-bottom: 20px;
   transition: width 0.3s;
 }
@@ -112,27 +112,71 @@ input[type="radio"]:checked + label {
 }
 
 button {
-  padding: 10px 20px;
+  padding: 13px 23px;
   font-size: 1rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 22px;
   cursor: pointer;
   background-color: #0072BC;
   color: white;
   transition: background-color 0.3s;
+  border-radius: 2rem;
 }
 
 button:disabled {
   background-color: #ffffff;
   cursor: not-allowed;
   color: #0072BC;
+  border-radius: 22px;
+  padding: 13px 23px;
+  font-size: 1rem;
 }
 button:enabled {
 background-color: #0072BC;
-  cursor: not-allowed;
+border-radius: 22px;
   color: #ffffff;
+  padding: 13px 23px;
+  font-size: 1rem;
 }
 
 button:not(:disabled):hover {
   background-color: #0072BC;
+}
+
+
+/* Styles for the email input container */
+.email-container {
+  padding: 5%;
+  border: 1px solid #ddd;
+  border-radius: 2rem;
+  max-width: 80%;
+  background-color: #fff;
+  color: #333;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.email-container h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #222;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
+}
+
+.ema{
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 1rem;
+  margin-top: 10px;
+  background-color: #ffffff;
+  color: #0072BC;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.email-container input[type="email"]:focus {
+  border-color: #0072BC;
 }
