@@ -41,36 +41,58 @@ def save_answers(request: SaveAnswersRequest):
 
     return {"message": "Respuestas guardadas con éxito."}
 
-@app.get("/questions/{user_email}")
-def get_questions(user_email: EmailStr):
-    if user_email in user_quiz_data:
-        return {"questions": user_quiz_data[user_email]}
-    else:
-        raise HTTPException(status_code=404, detail="No hay preguntas almacenadas para este usuario.")
 
-@app.get("/question/{user_email}/{id}")
-def mostrar_respuestas(user_email: EmailStr, id: int):
-    if user_email in user_quiz_data:
-        if 0 <= id < len(user_quiz_data[user_email]):
-            return user_quiz_data[user_email][id]
-        else:
-            raise HTTPException(status_code=404, detail="ID de pregunta no válido.")
-    else:
-        raise HTTPException(status_code=404, detail="No hay preguntas almacenadas para este usuario.")
+@app.post("/saveAnswersQuiz2")
+def save_answers_quiz_2(request: SaveAnswersRequest):
+    email = request.email
+    answers = request.answers
+    
+    if email not in user_quiz_data:
+        user_quiz_data[email] = {}
+    
+    quiz_number = 2
+    user_quiz_data[email][quiz_number] = answers
+    return {"message": "Respuestas guardadas con éxito para Quiz 2."}
 
-# Obtener pregunta y respuesta específica de un usuario
-@app.get("/question_answer/{user_email}/{id}")
-def get_question_answer(user_email: EmailStr, id: int):
-    if user_email in user_quiz_data:
-        if 0 <= id < len(user_quiz_data[user_email]):
-            quiz_data = user_quiz_data[user_email][id]
-            return {"question": quiz_data.question, "answer": quiz_data.answer}
-        else:
-            raise HTTPException(status_code=404, detail="ID de pregunta no válido.")
-    else:
-        raise HTTPException(status_code=404, detail="No hay preguntas almacenadas para este usuario.")
+@app.post("/saveAnswersQuiz3")
+def save_answers_quiz_3(request: SaveAnswersRequest):
+    email = request.email
+    answers = request.answers
+    
+    if email not in user_quiz_data:
+        user_quiz_data[email] = {}
+    
+    quiz_number = 3
+    user_quiz_data[email][quiz_number] = answers
+    return {"message": "Respuestas guardadas con éxito para Quiz 3."}
 
-# Nuevo endpoint para mostrar todos los usuarios y sus respuestas
+@app.post("/saveAnswersQuiz4")
+def save_answers_quiz_4(request: SaveAnswersRequest):
+    email = request.email
+    answers = request.answers
+    
+    if email not in user_quiz_data:
+        user_quiz_data[email] = {}
+    
+    quiz_number = 4
+    user_quiz_data[email][quiz_number] = answers
+    return {"message": "Respuestas guardadas con éxito para Quiz 4."}
+
+
 @app.get("/users")
 def get_all_users():
     return user_quiz_data
+
+# Nuevo endpoint para mostrar todos los usuarios y sus respuestas
+@app.get("/users3")
+def get_all_users():
+    return user_quiz_data
+
+@app.get("/users2")
+def get_all_users():
+    formatted_data = {}
+    for email, quizzes in user_quiz_data.items():
+        formatted_data[email] = {
+            f"Quiz {quiz_number}": answers for quiz_number, answers in quizzes.items()
+        }
+    return formatted_data
