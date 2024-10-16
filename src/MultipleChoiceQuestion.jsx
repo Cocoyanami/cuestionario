@@ -10,6 +10,7 @@ function MultipleChoiceQuestion({ question, options, onOptionSelect, selectedOpt
 
           return (
             <div key={optionIndex} className='divinpt' onClick={() => onOptionSelect(option.value)}> {/* Use option.value */}
+                
               <input 
                 type="radio"
                 name={`option-${questionIndex}`} // Unique name for each group

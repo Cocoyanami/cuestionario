@@ -291,25 +291,27 @@ function App() {
 
   const handleSubmit = async () => {
     const results = questions.map((question, index) => ({
-      question: question.question,
-      questionValue: question.value,
-      selectedAnswer: answers[index],
+      question: question.value, // Envía el valor de la pregunta
+      answer: answers[index],    // Envía el valor de la respuesta seleccionada
     }));
-
-    const totalSum = results.reduce((sum, result) => sum + (result.selectedAnswer || 0), 0);
-
+  
+    const body = {
+      email: email, // Asegúrate de tener el valor del correo electrónico
+      answers: results,
+    };
+  
     // Enviar datos al backend
     try {
-      const response = await fetch('/api/saveAnswers', {
+      const response = await fetch('http://127.0.0.1:8000/saveAnswers', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, answers: results }),
+        body: JSON.stringify(body), // Usa el objeto body aquí
       });
-
+  
       if (response.ok) {
-        alert(`Respuestas guardadas con éxito. Suma total: ${totalSum}`);
+        alert('Respuestas guardadas con éxito.');
       } else {
         alert('Error al guardar las respuestas.');
       }
@@ -318,6 +320,8 @@ function App() {
       alert('Error al guardar las respuestas.');
     }
   };
+  
+  
 
   // Progreso de la barra basado en el email y las preguntas
   const totalSteps = questions.length + 1; // Una para el email
