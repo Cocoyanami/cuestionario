@@ -82,20 +82,24 @@ input[type="radio"]:checked + label {
   align-items: center;
   transition: background-color 0.3s ease;
   border-radius: 8px;
+  font-size: 19px;
   color: #222;
 }
 
 .divinpt:hover {
   background-color: #E6F4FA; /* Light blue background on hover */
+  font-size: 19px;
 }
 
 /* Change the text and border color on hover */
 .divinpt:hover input[type="radio"] {
   border-color: #0072BC;
+  font-size: 19px;
 }
 
 .divinpt:hover label {
   color: #0072BC;
+  font-size: 19px;
 }
 
 

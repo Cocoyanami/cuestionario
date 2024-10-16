@@ -17,6 +17,7 @@ app.add_middleware(
 class QuizData(BaseModel):
     question: int  # Valor de la pregunta
     answer: int    # Valor de la respuesta seleccionada
+    category: str  # Nueva categoría para la pregunta
 
 class SaveAnswersRequest(BaseModel):
     email: EmailStr
@@ -41,58 +42,6 @@ def save_answers(request: SaveAnswersRequest):
 
     return {"message": "Respuestas guardadas con éxito."}
 
-
-@app.post("/saveAnswersQuiz2")
-def save_answers_quiz_2(request: SaveAnswersRequest):
-    email = request.email
-    answers = request.answers
-    
-    if email not in user_quiz_data:
-        user_quiz_data[email] = {}
-    
-    quiz_number = 2
-    user_quiz_data[email][quiz_number] = answers
-    return {"message": "Respuestas guardadas con éxito para Quiz 2."}
-
-@app.post("/saveAnswersQuiz3")
-def save_answers_quiz_3(request: SaveAnswersRequest):
-    email = request.email
-    answers = request.answers
-    
-    if email not in user_quiz_data:
-        user_quiz_data[email] = {}
-    
-    quiz_number = 3
-    user_quiz_data[email][quiz_number] = answers
-    return {"message": "Respuestas guardadas con éxito para Quiz 3."}
-
-@app.post("/saveAnswersQuiz4")
-def save_answers_quiz_4(request: SaveAnswersRequest):
-    email = request.email
-    answers = request.answers
-    
-    if email not in user_quiz_data:
-        user_quiz_data[email] = {}
-    
-    quiz_number = 4
-    user_quiz_data[email][quiz_number] = answers
-    return {"message": "Respuestas guardadas con éxito para Quiz 4."}
-
-
 @app.get("/users")
 def get_all_users():
     return user_quiz_data
-
-# Nuevo endpoint para mostrar todos los usuarios y sus respuestas
-@app.get("/users3")
-def get_all_users():
-    return user_quiz_data
-
-@app.get("/users2")
-def get_all_users():
-    formatted_data = {}
-    for email, quizzes in user_quiz_data.items():
-        formatted_data[email] = {
-            f"Quiz {quiz_number}": answers for quiz_number, answers in quizzes.items()
-        }
-    return formatted_data
