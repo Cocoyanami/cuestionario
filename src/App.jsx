@@ -1087,22 +1087,39 @@ function App() {
     }
 };
 
-// Función para obtener la categoría de la pregunta
+const categories = [
+  { limit: 4, name: "Consejo" },
+  { limit: 8, name: "Juicio" },
+  { limit: 12, name: "Perio" },
+  { limit: 16, name: "Memoria del pasado" },
+  { limit: 20, name: "Circunspección" },
+  { limit: 24, name: "Cautela" },
+  { limit: 28, name: "Perseverancia" },
+  { limit: 32, name: "Constancia" },
+  { limit: 36, name: "Paciencia" },
+  { limit: 40, name: "Magnanimidad" },
+  { limit: 44, name: "Cultura de la legalidad" },
+  { limit: 48, name: "Justicia distributiva" },
+  { limit: 52, name: "Justicia conmutativa" },
+  { limit: 56, name: "Gratitud" },
+  { limit: 60, name: "Fidelidad" },
+  { limit: 64, name: "Respeto" },
+  { limit: 68, name: "Liberalidad" },
+  { limit: 72, name: "Honestidad" },
+  { limit: 76, name: "Moderación" },
+  { limit: 80, name: "Sobriedad" },
+  { limit: 84, name: "Humildad" },
+  { limit: 88, name: "Simplicidad" },
+  { limit: 90, name: "Estudiosidad" },
+];
+
 const getCategory = (questionValue) => {
-    // Implementa la lógica para devolver la categoría según el valor de la pregunta
-    if (questionValue <= 4) {
-        return "consejo";
-    } else if (questionValue <= 8) {
-        return "juicio";
-    } else if (questionValue <= 12) {
-        return "imperio";
-    } else if (questionValue <= 16) {
-        return "memoria del pasado";
-    } else if (questionValue <= 20) {
-        return "circunspension";
-    } else {
-        return "cautela";
-    }
+  for (let i = 0; i < categories.length; i++) {
+      if (questionValue <= categories[i].limit) {
+          return categories[i].name;
+      }
+  }
+  return "desconocido"; // Valor por defecto si el rango es mayor que 90
 };
 
   
