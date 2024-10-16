@@ -1055,15 +1055,32 @@ function App() {
   };
 
   const handleSubmit = async () => {
-    const results = questions.map((question, index) => ({
-        question: question.value,  // Envía el valor de la pregunta
-        answer: answers[index],     // Envía el valor de la respuesta seleccionada
-        category: getCategory(question.value), // Llama a una función que obtenga la categoría
-    }));
+    const sectionResults = {}; // Guardará los resultados por categoría
+
+    const results = questions.map((question, index) => {
+        const category = getCategory(question.value);
+        
+        // Inicializa la categoría si no existe en sectionResults
+        if (!sectionResults[category]) {
+            sectionResults[category] = 0;
+        }
+
+        // Suma la respuesta seleccionada a la categoría correspondiente
+        if (answers[index] !== null) {
+            sectionResults[category] += answers[index];
+        }
+
+        return {
+            question: question.value,  // Envía el valor de la pregunta
+            answer: answers[index],     // Envía el valor de la respuesta seleccionada
+            category: category, // Categoría obtenida
+        };
+    });
 
     const body = {
         email: email, // Asegúrate de tener el valor del correo electrónico
         answers: results,
+        sectionResults: sectionResults // Envía también los resultados por sección
     };
 
     // Enviar datos al backend
