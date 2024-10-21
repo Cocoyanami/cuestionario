@@ -1085,7 +1085,7 @@ function App() {
 
     // Enviar datos al backend
     try {
-        const response = await fetch('http://127.0.0.1:8000/saveAnswers', {
+        const response = await fetch('http://localhost:3001/saveAnswers', { //ruta de api
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1146,7 +1146,10 @@ const getCategory = (questionValue) => {
   const progressPercentage = ((currentQuestionIndex + 1 + (emailSubmitted ? 1 : 0)) / totalSteps) * 100;
 
   return (
+    <div>
+    <BannerComp title={"Quiz"} image={ImgDigital1}/>
     <div className="App">
+        
       <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
 
       {/* Mostrar el campo de email solo si no se ha ingresado */}
@@ -1162,7 +1165,7 @@ const getCategory = (questionValue) => {
             className='ema'
           />
           <br/><br/><br/>
-          <button onClick={() => setEmailSubmitted(true)} disabled={!email}>
+          <button onClick={() => setEmailSubmitted(true)} disabled={!email} className='qzbutton'>
             Seguir
           </button>
         </div>
@@ -1181,19 +1184,20 @@ const getCategory = (questionValue) => {
 
       {emailSubmitted && (
         <div className="button-container">
-          <button onClick={handlePrevious} disabled={currentQuestionIndex === 0}>
+          <button onClick={handlePrevious} disabled={currentQuestionIndex === 0} className='qzbutton'>
             Anterior
           </button>
-          <button onClick={handleNext} disabled={answers[currentQuestionIndex] === null}>
+          <button onClick={handleNext} disabled={answers[currentQuestionIndex] === null} className='qzbutton'>
             Siguiente
           </button>
           {currentQuestionIndex === questions.length - 1 && (
-            <button onClick={handleSubmit} disabled={!email}>
+            <button onClick={handleSubmit} disabled={!email} className='qzbutton'>
               Finalizar
             </button>
           )}
         </div>
       )}
+    </div>
     </div>
   );
 }
